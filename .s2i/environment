@@ -1,0 +1,2 @@
+ARTIFACT_COPY_ARGS=-p -r lib/ *-runner.jar
+
