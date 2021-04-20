@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: simple          
+    spec:
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/wpernath-article/simple:latest
+        imagePullPolicy: Always
+        name: simple
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+  
+
+  

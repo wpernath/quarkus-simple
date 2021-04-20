@@ -1,0 +1,13 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: simple
+spec:
+  host: simple-wpernath-article-test.apps.beta.rhepds.com
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: simple
+    weight: 100
+  wildcardPolicy: None
