@@ -1,0 +1,89 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+name: app-template
+metadata:
+  name: app-template
+  annotation:
+    tags: java
+    iconClass: icon-rh-openjdk
+    openshift.io/display-name: The APPLICATION template
+    description: This Template creates the APPLICATION
+objects:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: ${APPLICATION_NAME}
+      name: ${APPLICATION_NAME}
+    spec:
+      ports:
+      - name: 8080-tcp
+        port: 8080
+        protocol: TCP
+      selector:
+        app: ${APPLICATION_NAME}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ${APPLICATION_NAME}
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: ${APPLICATION_NAME}
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          labels:
+            app: ${APPLICATION_NAME}
+        spec:
+          containers:
+          - image: ${IMAGE_NAME}:${IMAGE_TAG}
+            imagePullPolicy: Always
+            name: ${APPLICATION_NAME}
+            ports:
+            - containerPort: 8080
+              protocol: TCP
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      name: ${APPLICATION_NAME}
+    spec:
+      host: ${HOST_NAME}
+      port:
+        targetPort: 8080-tcp
+      to:
+        kind: Service
+        name: ${APPLICATION_NAME}
+        weight: 100
+      wildcardPolicy: None
+parameters:
+- name: APPLICATION_NAME
+  description: The name of the application you'd like to create
+  displayName: Application Name
+  required: true
+  value: simple
+- name: IMAGE_NAME
+  description: The name and path of the image
+  displayName: Image Name
+  required: true
+- name: IMAGE_TAG
+  displayName: Image Tag
+  description: The tag of the image
+  required: true
+  value: latest
+- name: HOST_NAME
+  description: Name of the Route host name
+  displayName: Host Name 
+  required: true
+  value: simple-wpernath-article-test.apps.beta.rhepds.com
+
+
+
+  
+
+
