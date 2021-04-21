@@ -10,6 +10,5 @@ commonLabels:
 resources:
 - deployment.yaml
 - service.yaml
-- configMap.yaml
 - route.yaml
 
