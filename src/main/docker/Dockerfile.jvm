@@ -7,8 +7,13 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.jvm -t quarkus/simple-quarkus-jvm .
-#
+# docker build -f src/main/docker/Dockerfile.jvm -t wpernath/simple-quarkus .
+# 
+# Then run skopeo to upload the docker image to quay.io
+# 
+# skopeo copy docker://docker.io/wpernath/simple-quarkus:latest docker://quay.io/wpernath/simple-quarkus:latest
+# 
+# 
 # Then run the container using:
 #
 # docker run -i --rm -p 8080:8080 quarkus/simple-quarkus-jvm
