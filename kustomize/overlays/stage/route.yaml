@@ -1,0 +1,10 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: simple
+spec:
+  host: staging-simple-wpernath-article.apps.beta.rhepds.com
+  to:
+    kind: Service
+    name: staging-simple
+    
