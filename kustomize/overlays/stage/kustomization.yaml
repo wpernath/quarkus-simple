@@ -1,0 +1,10 @@
+namePrefix: staging-  
+commonLabels:
+  variant: staging
+commonAnnotations:
+  note: We are on staging now
+bases:
+- ../../base
+patchesStrategicMerge:
+  - deployment.yaml
+
