@@ -71,6 +71,7 @@ parameters:
   description: The name and path of the image
   displayName: Image Name
   required: true
+  value: quay.io/wpernath/simple-quarkus
 - name: IMAGE_TAG
   displayName: Image Tag
   description: The tag of the image
@@ -80,7 +81,7 @@ parameters:
   description: Name of the Route host name
   displayName: Host Name 
   required: true
-  value: simple-wpernath-article-test.apps.beta.rhepds.com
+  value: simple-article.apps.example.com
 
 
 
