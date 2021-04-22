@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: simple
 spec:
-  host: simple-wpernath-article-test.apps.beta.rhepds.com
+  host: simple-article-kustomize.apps.beta.rhepds.com
   port:
     targetPort: 8080-tcp
   to:
