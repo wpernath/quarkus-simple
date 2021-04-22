@@ -7,9 +7,9 @@ spec:
   template:
     spec:
       containers:
-      - image: quay.io/wpernath/simple-quarkus:stage
+      - image: quay.io/wpernath/simple-quarkus:latest
         imagePullPolicy: Always
-        name: staging-simple
+        name: dev-simple
         ports:
         - containerPort: 8080
           protocol: TCP

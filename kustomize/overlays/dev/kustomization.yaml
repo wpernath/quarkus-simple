@@ -1,11 +1,10 @@
-namePrefix: staging-  
+namePrefix: dev-  
 commonLabels:
-  variant: staging
+  variant: development
 #commonAnnotations:
-#  note: We are on staging now
+#  note: We are on dev now
 bases:
 - ../../base
 patchesStrategicMerge:
   - deployment.yaml
   - route.yaml
-

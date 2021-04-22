@@ -18,12 +18,6 @@ spec:
         app: simple          
     spec:
       containers:
-      - image: quay.io/wpernath/simple-quarkus:latest
-        imagePullPolicy: Always
-        name: simple
-        ports:
-        - containerPort: 8080
-          protocol: TCP
   
 
   
