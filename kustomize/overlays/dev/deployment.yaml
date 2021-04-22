@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: simple
 spec:
-  replicas: 2
+  replicas: 1
   template:
     spec:
       containers:
@@ -11,5 +11,9 @@ spec:
         imagePullPolicy: Always
         name: dev-simple
         ports:
-        - containerPort: 8080
-          protocol: TCP
+          - containerPort: 8080
+            protocol: TCP
+        env:
+          - name: APP_GREETING
+            value: 'Hey, this is the DEVELOPMENT environment of the App'
+  

@@ -11,5 +11,8 @@ spec:
         imagePullPolicy: Always
         name: staging-simple
         ports:
-        - containerPort: 8080
-          protocol: TCP
+          - containerPort: 8080
+            protocol: TCP
+        env:
+          - name: APP_GREETING
+            value: 'Hey, this is the STAGING environment of the App'
