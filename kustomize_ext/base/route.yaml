@@ -8,8 +8,6 @@ spec:
     targetPort: 8080-tcp
   to:
     kind: Service
-    name: dev-simple
+    name: simple
     weight: 100
   wildcardPolicy: None
-
-  

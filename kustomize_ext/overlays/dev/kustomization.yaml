@@ -1,0 +1,28 @@
+namePrefix: dev-  
+commonLabels:
+  variant: development
+
+bases:
+- ../../base
+
+# replace the image tag of the container with latest
+images:
+  - name: quay.io/wpernath/simple-quarkus
+    newTag: latest
+
+# apply a patch to replace the Host of the Route
+patches:
+- patch: |-
+    - op: replace
+      path: /spec/host
+      value: article-kustomize-dev.apps.beta.rhepds.com
+  target:
+    kind: Route
+# this patch needs to be done, because kustomize does not change 
+# the route target service name
+- patch: |-
+    - op: replace
+      path: /spec/to/name
+      value: dev-simple
+  target:
+    kind: Route

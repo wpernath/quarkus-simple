@@ -7,4 +7,3 @@ spec:
   to:
     kind: Service
     name: staging-simple
-    

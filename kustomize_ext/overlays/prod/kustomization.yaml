@@ -1,0 +1,21 @@
+namePrefix: prod-  
+commonLabels:
+  variant: production
+
+bases:
+- ../../base
+
+# replace the image tag of the container with latest
+images:
+  - name: quay.io/wpernath/simple-quarkus
+    newTag: prod
+
+# apply a patch to replace the Host of the Route
+patches:
+- patch: |-
+    - op: replace
+      path: /spec/host
+      value: article-kustomize-prod.apps.beta.rhepds.com
+  target:
+    kind: Route
+

@@ -1,0 +1,49 @@
+namePrefix: stage-  
+commonLabels:
+  variant: stage
+
+bases:
+- ../../base
+
+# in stage we have 2 replicas
+replicas:
+- name: simple
+  count: 2
+
+# replace the image tag of the container with stage
+images:
+  - name: quay.io/wpernath/simple-quarkus
+    newTag: stage
+
+# apply some patches
+patches:
+  # apply health checks to deployment
+  - path: apply-health-checks.yaml
+    target:
+      version: v1
+      kind: Deployment
+      name: simple
+
+  # change the host name of the generated route
+  - patch: |-
+      - op: replace
+        path: /spec/host
+        value: article-kustomize-stage.apps.beta.rhepds.com
+    target:
+      kind: Route
+
+# this patch needs to be done, because kustomize does not change 
+# the route target service name
+  - patch: |-
+      - op: replace
+        path: /spec/to/name
+        value: stage-simple
+    target:
+      kind: Route
+
+# change env parameter in config-map 
+# we could also simply generate the config-map from a source
+# or we could use one of the patches above for this
+patchesStrategicMerge:
+  - change-env-value.yaml
+
