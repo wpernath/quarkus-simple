@@ -28,7 +28,7 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/host
-        value: article-kustomize-stage.apps.beta.rhepds.com
+        value: simple-stage-art-stage.apps-crc.testing
     target:
       kind: Route
 

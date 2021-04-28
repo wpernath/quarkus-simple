@@ -15,7 +15,7 @@ patches:
 - patch: |-
     - op: replace
       path: /spec/host
-      value: article-kustomize-dev.apps.beta.rhepds.com
+      value: simple-dev-art-dev.apps-crc.testing
   target:
     kind: Route
 # this patch needs to be done, because kustomize does not change 

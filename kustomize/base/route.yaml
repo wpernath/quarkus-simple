@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: simple
 spec:
-  host: quarkus.apps.beta.rhepds.com
+  host: quarkus.apps-crc.testing
   port:
     targetPort: 8080-tcp
   to:
