@@ -24,8 +24,7 @@ spec:
         ports:
           - containerPort: 8080
             protocol: TCP
-        envFrom:
-          - configMapRef:
-              name: app-config
-
+        env:
+          - name: APP_GREETING
+            value: 'Hey, this is the DEVELOPMENT environment of the App'
   
