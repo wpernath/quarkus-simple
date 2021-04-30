@@ -2,9 +2,7 @@ package org.wanja.quarkus;
 
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.text.spi.NumberFormatProvider;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.wanja.quarkus.model.*;
 
 @Path("/reader")
 public class RkiReaderResource {
@@ -23,8 +22,6 @@ public class RkiReaderResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String read() throws IOException {
         String body = HttpHandler.getInstance().readRkiModel(baseURL);
-        //System.out.println(body);
-
         RkiModel model = Converter.fromJsonString(body);
 
         if (model != null) {
