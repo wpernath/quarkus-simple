@@ -1,5 +1,15 @@
 
-# Thank you for installing quarkus-simple.
+# simple-quarkus 
+
+This is the helm chart for the project. 
+
+## build and install the helm chart
+```bash
+$ helm package helm -u
+$ helm install <chart-name>
+$ helm upgrade <chart-name>
+```
+
 
 ## To learn more about the release, try:
 

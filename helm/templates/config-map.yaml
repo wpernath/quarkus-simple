@@ -4,4 +4,4 @@ metadata:
   name: app-config
 data:
   APP_GREETING: |- 
-    {{ .Values.config.greeting | default "haaaaaaallo" }}
+    {{ .Values.config.greeting | default "Yeah, it's openshift time" }}
