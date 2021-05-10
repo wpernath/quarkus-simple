@@ -3,27 +3,24 @@
 #
 # Before building the container image run:
 #
-# ./mvnw package
+# $> ./mvnw clean package -DskipTests
 #
 # Then, build the image with:
+# $> docker build -f src/main/docker/Dockerfile.jvm -t quay.io/wpernath/simple-quarkus .
 #
-# docker build -f src/main/docker/Dockerfile.jvm -t wpernath/simple-quarkus .
+# Push all image changes to quay.io
+# $> docker push quay.io/wpernath/simple-quarkus -a
+#
+# Create a stage image (and push changes with docker push)
+# $> docker tag quay.io/wpernath/simple-quarkus:latest quay.io/wpernath/simple-quarkus:stage
+#
+# Test run the container once
+# $> docker run -i -p 8080:8080 quay.io/wpernath/simple-quarkus:latest
 # 
 # Then run skopeo to upload the docker image to quay.io
+# $> skopeo copy docker://wpernath/simple-quarkus:latest docker://quay.io/wpernath/simple-quarkus:latest
 # 
-# skopeo copy docker://wpernath/simple-quarkus:latest docker://quay.io/wpernath/simple-quarkus:latest
 # 
-# 
-# Then run the container using:
-#
-# docker run -i --rm -p 8080:8080 wpernath/simple-quarkus
-#
-# If you want to include the debug port into your docker image
-# you will have to expose the debug port (default 5005) like this :  EXPOSE 8080 5050
-#
-# Then run the container using :
-#
-# docker run -i --rm -p 8080:8080 -p 5005:5005 -e JAVA_ENABLE_DEBUG="true" quarkus/simple-quarkus-jvm
 #
 ###
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.3 

@@ -23,15 +23,10 @@ public class HttpHandler {
     private final HttpClient client = HttpClient.newBuilder().executor(service).version(HttpClient.Version.HTTP_2)
             .build();
 
-    public String readRkiModel(String where) {
-        HttpResponse body;
+    public String readRkiModel(String where) throws IOException {        
         try {
-            body = client.send(HttpRequest.newBuilder().GET().uri(URI.create(where)).header("Accept", MediaType.APPLICATION_JSON).build(), HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> body = client.send(HttpRequest.newBuilder().GET().uri(URI.create(where)).header("Accept", MediaType.APPLICATION_JSON).build(), HttpResponse.BodyHandlers.ofString());
             return body.body().toString();
-        } 
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } 
         catch (InterruptedException e) {
             // TODO Auto-generated catch block

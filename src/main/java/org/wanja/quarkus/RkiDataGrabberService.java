@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import org.wanja.quarkus.model.*;
 
 @RegisterRestClient(configKey = "rki-api")
 public interface RkiDataGrabberService {

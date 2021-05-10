@@ -1,5 +1,4 @@
-package org.wanja.quarkus;
-
+package org.wanja.quarkus.model;
 import java.io.IOException;
 import com.fasterxml.jackson.annotation.*;
 

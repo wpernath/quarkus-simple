@@ -1,0 +1,10 @@
+
+# Thank you for installing quarkus-simple.
+
+## To learn more about the release, try:
+
+```bash
+$ helm status quarkus-simple
+$ helm get all quarkus-simple
+```
+

@@ -1,5 +1,4 @@
-package org.wanja.quarkus;
-
+package org.wanja.quarkus.model;
 import com.fasterxml.jackson.annotation.*;
 import java.util.List;
 

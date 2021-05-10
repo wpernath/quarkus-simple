@@ -1,13 +1,11 @@
 package org.wanja.quarkus;
 
-import java.util.List;
-import java.util.Set;
-
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.wanja.quarkus.model.*;
 
 @Path("/rki")
 public class RkiDataGrabberResource {
