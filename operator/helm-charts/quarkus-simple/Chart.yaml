@@ -1,0 +1,14 @@
+apiVersion: v2
+appVersion: 1.2.0
+description: A helm chart for the basic app described on https://www.opensourcerers.org/2021/04/26/automated-application-packaging-and-distribution-with-openshift-part-12/
+home: https://github.com/wpernath/quarkus-simple
+maintainers:
+- email: wpernath@redhat.com
+  name: Wanja Pernath
+name: quarkus-simple
+sources:
+- https://github.com/wpernath/quarkus-simple
+- https://www.opensourcerers.org/2021/04/26/automated-application-packaging-and-distribution-with-openshift-part-12/
+- https://www.opensourcerers.org/2021/04/26/automated-application-packaging-and-distribution-with-openshift-part-22/
+type: application
+version: 0.0.8

@@ -1,0 +1,6 @@
+# Use the 'create api' subcommand to add watches to this file.
+- group: charts.wanja.org
+  version: v1alpha1
+  kind: QuarkusSimple
+  chart: helm-charts/quarkus-simple
+#+kubebuilder:scaffold:watch

@@ -1,0 +1,45 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Basic Install
+  name: simple-quarkus-operator.v0.0.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions: {}
+  description: This is a simple quarkus operator created for the article mentioned on https://github.com/wpernath/quarkus-simple
+  displayName: Simple Quarkus Operator
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      deployments: null
+    strategy: ""
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - simple
+  - quarkus
+  - helm
+  - operator
+  links:
+  - name: Simple Quarkus Operator
+    url: https://simple-quarkus-operator.domain
+  maintainers:
+  - email: wpernath@redhat.com
+    name: Wanja Pernath
+  maturity: alpha
+  provider:
+    name: Wanja Pernath
+    url: https://github.com/wpernath/quarkus-simple
+  version: 0.0.0

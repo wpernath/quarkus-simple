@@ -1,0 +1,12 @@
+deployment:
+    image: quay.io/wpernath/simple-quarkus
+    version: 1.2.0
+    replicas: 1
+    includeHealthChecks: true
+
+route:
+    host: simple-article-helm.apps-crc.testing
+
+config:
+    greeting: 'This needs to be changed per stage!'
+

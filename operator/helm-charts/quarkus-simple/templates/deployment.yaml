@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-quarkus-deployment
+spec:
+  replicas: {{ .Values.deployment.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: simple
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: simple          
+    spec:
+      containers:
+      - name: simple
+        image: "{{ .Values.deployment.image }}:{{ .Values.deployment.version }}"
+        imagePullPolicy: Always        
+        {{- if .Values.deployment.includeHealthChecks }}        
+        readinessProbe:
+          httpGet:
+            path: /q/health/ready
+            port: 8080
+            scheme: HTTP
+          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /q/health/live
+            port: 8080
+            scheme: HTTP
+          timeoutSeconds: 2
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        {{- end }}
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+        envFrom:
+          - configMapRef:
+              name: app-config
