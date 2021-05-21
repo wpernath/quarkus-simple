@@ -27,7 +27,7 @@ spec:
       containers:
       - args:
         - --leader-elect
-        - --leader-election-id=operator
+        - --leader-election-id=simple-quarkus-operator
         image: controller:latest
         name: manager
         securityContext:

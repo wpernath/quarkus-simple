@@ -1,6 +1,6 @@
 deployment:
     image: quay.io/wpernath/simple-quarkus
-    version: latest
+    version: 1.2.0
     replicas: 1
     includeHealthChecks: true
 

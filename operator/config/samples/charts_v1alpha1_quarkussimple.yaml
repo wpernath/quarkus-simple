@@ -1,4 +1,4 @@
-apiVersion: charts.my.domain/v1alpha1
+apiVersion: charts.wanja.org/v1alpha1
 kind: QuarkusSimple
 metadata:
   name: quarkussimple-sample
@@ -10,8 +10,8 @@ spec:
     image: quay.io/wpernath/simple-quarkus
     includeHealthChecks: true
     replicas: 1
-    version: latest
+    version: "1.2.0"
   route:
-    host: simple-article-helm.apps-crc.testing
+    host: article-operator.apps-crc.testing
   
   

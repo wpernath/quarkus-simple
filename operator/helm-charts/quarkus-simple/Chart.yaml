@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 1.0.0
+appVersion: 1.2.0
 description: A helm chart for the basic app described on https://www.opensourcerers.org/2021/04/26/automated-application-packaging-and-distribution-with-openshift-part-12/
 home: https://github.com/wpernath/quarkus-simple
 maintainers:

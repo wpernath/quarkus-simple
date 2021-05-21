@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple
+  name: simple-quarkus-deployment
 spec:
   replicas: {{ .Values.deployment.replicas | default 1 }}
   selector:

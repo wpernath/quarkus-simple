@@ -29,10 +29,10 @@ rules:
   - create
 
 ##
-## Rules for charts.my.domain/v1alpha1, Kind: QuarkusSimple
+## Rules for charts.wanja.org/v1alpha1, Kind: QuarkusSimple
 ##
 - apiGroups:
-  - charts.my.domain
+  - charts.wanja.org
   resources:
   - quarkussimples
   - quarkussimples/status
@@ -48,6 +48,13 @@ rules:
 - verbs:
   - "*"
   apiGroups:
+  - ""
+  resources:
+  - "configmaps"
+  - "services"
+- verbs:
+  - "*"
+  apiGroups:
   - "apps"
   resources:
   - "deployments"
@@ -57,12 +64,5 @@ rules:
   - "route.openshift.io"
   resources:
   - "routes"
-- verbs:
-  - "*"
-  apiGroups:
-  - ""
-  resources:
-  - "configmaps"
-  - "services"
 
 #+kubebuilder:scaffold:rules
