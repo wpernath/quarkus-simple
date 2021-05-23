@@ -29,7 +29,7 @@ metadata:
     capabilities: Basic Install
     operators.operatorframework.io/builder: operator-sdk-v1.7.2
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
-  name: simple-quarkus-operator.v0.0.3
+  name: simple-quarkus-operator.v0.0.4
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -130,7 +130,7 @@ spec:
                 - --upstream=http://127.0.0.1:8080/
                 - --logtostderr=true
                 - --v=10
-                image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
+                image: registry.redhat.io/openshift4/ose-kube-rbac-proxy:v4.7
                 name: kube-rbac-proxy
                 ports:
                 - containerPort: 8443
@@ -141,7 +141,7 @@ spec:
                 - --metrics-bind-address=127.0.0.1:8080
                 - --leader-elect
                 - --leader-election-id=simple-quarkus-operator
-                image: quay.io/wpernath/simple-quarkus-operator:0.0.3
+                image: quay.io/wpernath/simple-quarkus-operator:0.0.4
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -227,4 +227,4 @@ spec:
   provider:
     name: Wanja Pernath
     url: https://github.com/wpernath/quarkus-simple
-  version: 0.0.3
+  version: 0.0.4
