@@ -17,9 +17,6 @@
 # Test run the container once
 # $> docker run -i -p 8080:8080 quay.io/wpernath/simple-quarkus:latest
 # 
-# Then run skopeo to upload the docker image to quay.io
-# $> skopeo copy docker://wpernath/simple-quarkus:latest docker://quay.io/wpernath/simple-quarkus:latest
-# 
 # 
 #
 ###
