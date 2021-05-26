@@ -1,7 +1,7 @@
 deployment:
     image: quay.io/wpernath/simple-quarkus
     version: latest
-    replicas: 1
+    replicas: 2
     includeHealthChecks: true
 
 route:

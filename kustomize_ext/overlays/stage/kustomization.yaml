@@ -13,7 +13,7 @@ replicas:
 # replace the image tag of the container with stage
 images:
   - name: quay.io/wpernath/simple-quarkus
-    newTag: stage
+    newTag: 1.2.0
 
 # apply some patches
 patches:
