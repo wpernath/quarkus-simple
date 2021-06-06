@@ -1,0 +1,4 @@
+Bundesland,Landkreis,Erkrankungen,Tote,Inzidenz
+{#for feature in list}
+{feature.attributes.bl.toValue},{feature.attributes.county},{feature.attributes.cases},{feature.attributes.deaths},{feature.attributes.cases7Per100KTxt}
+{/for}
