@@ -16,8 +16,9 @@ import org.wanja.quarkus.model.*;
 public class RkiReaderResource {
 
     @ConfigProperty(name = "rki-api/mp-rest/url")
-    private String baseURL;
+    String baseURL;
 
+    
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String read() throws IOException {

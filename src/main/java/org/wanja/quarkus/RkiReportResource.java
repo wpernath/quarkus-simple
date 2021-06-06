@@ -18,7 +18,7 @@ import io.quarkus.qute.TemplateInstance;
 public class RkiReportResource {
    
     @ConfigProperty(name = "rki-api/mp-rest/url")
-    private String baseURL;
+    String baseURL;
     
     @Inject
     Template rkiReport;
