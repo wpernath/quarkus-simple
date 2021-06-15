@@ -11,7 +11,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class GreetingResource {
 
     @ConfigProperty(name = "app.greeting", defaultValue = "Hello, Hi and welcome")
-    private String message;
+    String message;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)

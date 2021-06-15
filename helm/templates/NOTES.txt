@@ -18,3 +18,4 @@ $ helm status quarkus-simple
 $ helm get all quarkus-simple
 ```
 
+## New Version contains something more

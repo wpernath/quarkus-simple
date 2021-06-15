@@ -1,4 +1,14 @@
-Bundesland,Landkreis,Erkrankungen,Tote,Inzidenz
+#Bundesland,Landkreis,Erkrankungen,Tote,Inzidenz
+#{#for feature in list}
+#{feature.attributes.bl.toValue},{feature.attributes.county},{feature.attributes.cases},{feature.attributes.deaths},{feature.attributes.cases7Per100KTxt}
+#{/for}
+
+# states
 {#for feature in list}
-{feature.attributes.bl.toValue},{feature.attributes.county},{feature.attributes.cases},{feature.attributes.deaths},{feature.attributes.cases7Per100KTxt}
+insert into state(id, name) values ((nextval('hibernate_sequence'), '{feature.attributes.bl.toValue}');
+{/for}
+
+# counties
+{#for feature in list}
+insert into county(id, name, state_name) values ((nextval('hibernate_sequence'), '{feature.attributes.county}', '{feature.attributes.bl.toValue}');
 {/for}
