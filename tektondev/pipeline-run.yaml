@@ -1,0 +1,32 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: my-pipeline-run
+  labels:
+    tekton.dev/pipeline: new-pipeline
+spec:
+  params:
+  - name: git-url
+    value: https://github.com/wpernath/quarkus-simple.git
+  - name: git-revision
+    value: pipeline
+  - name: image-name
+    value: quay.io/wpernath/quarkus-simple-wow:latest
+  - name: image-username
+    value: wpernath
+  - name: image-password
+    value: BF/xcOo6BeLU2YNlbbmy/HKMNzgrNapJiEpWAr6b9n/BgNND1+kO8xGiShNkFufw
+  pipelineRef:
+    name: new-pipeline
+  serviceAccountName: pipeline
+  timeout: 1h0m0s
+  workspaces:
+  - name: shared-workspace
+    persistentVolumeClaim:
+      claimName: quarkus-build
+  - configMap:
+      name: maven-settings
+    name: maven-settings
+  - name: maven-repo
+    persistentVolumeClaim:
+      claimName: maven-repo-pvc

@@ -4,7 +4,7 @@ metadata:
   name: new-pipeline
 spec:
   params:
-    - default: 'http://gogs.ci.svc:3000/quarkus-simple.git'
+    - default: 'https://github.com/wpernath/quarkus-simple.git'
       description: Source to the GIT
       name: git-url
       type: string
@@ -12,6 +12,16 @@ spec:
       description: revision to be used
       name: git-revision
       type: string
+    - name: image-name
+      type: string
+      description: the name of the target image including registry
+      default: quay.io/wpernath/quarkus-simple-wow:latest
+    - name: image-username
+      type: string
+      description: the username you use to access the registry
+    - name: image-password
+      type: string
+      description: The password you use to access the registry
   tasks:
     - name: git-clone
       params:
@@ -29,17 +39,12 @@ spec:
       workspaces:
         - name: output
           workspace: shared-workspace
-    - name: maven
+    - name: compile
       params:
-        - name: MAVEN_IMAGE
-          value: >-
-            gcr.io/cloud-builders/mvn@sha256:57523fc43394d6d9d2414ee8d1c85ed7a13460cbb268c3cd16d28cfb3859e641
         - name: GOALS
           value:
             - compile
-            - "-DskipTests"
-        - name: MAVEN_MIRROR_URL
-          value: 'http://nexus.ci.svc:8081/repository/maven-public'
+            - '-DskipTests'
         - name: PROXY_PROTOCOL
           value: http
         - name: CONTEXT_DIR
@@ -56,8 +61,62 @@ spec:
           workspace: maven-repo
         - name: maven-settings
           workspace: maven-settings
+    - name: package
+      params:
+        - name: GOALS
+          value:
+            - package
+            - '-DskipTests'
+        - name: PROXY_PROTOCOL
+          value: http
+        - name: CONTEXT_DIR
+          value: .
+      runAfter:
+        - compile
+      taskRef:
+        kind: Task
+        name: maven-caching
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+        - name: maven-repo
+          workspace: maven-repo
+        - name: maven-settings
+          workspace: maven-settings
+    - name: builld-image
+      params:
+        - name: GOALS
+          value:
+            - package
+            - '-DskipTests'
+            - '-Dquarkus.container-image.build=true'
+            - '-Dquarkus.container-image.push=true'
+            - '-Dquarkus.container-image.builder=jib'
+            - >-
+              -Dquarkus.container-image.image=$(params.image-name)
+            - '-Dquarkus.container-image.username=$(params.image-username)'
+            - >-
+              -Dquarkus.container-image.password=$(params.image-password)
+        - name: PROXY_PROTOCOL
+          value: http
+        - name: CONTEXT_DIR
+          value: .
+      runAfter:
+        - package
+      taskRef:
+        kind: Task
+        name: maven-caching
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+        - name: maven-repo
+          workspace: maven-repo
+        - name: maven-settings
+          workspace: maven-settings
   workspaces:
     - name: shared-workspace
+      optional: false
     - name: maven-settings
+      optional: false
     - name: maven-repo
-  
+      optional: false
