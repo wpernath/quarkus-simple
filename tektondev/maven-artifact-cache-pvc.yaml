@@ -11,3 +11,17 @@ spec:
     - ReadWriteOnce
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: builder-pvc
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain

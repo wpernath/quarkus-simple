@@ -12,12 +12,12 @@ images:
 
 # apply a patch to replace the Host of the Route
 patches:
-- patch: |-
-    - op: replace
-      path: /spec/host
-      value: art-test.apps-crc.testing
-  target:
-    kind: Route
+#- patch: |-
+#    - op: replace
+#      path: /spec/host
+#      value: art-test.apps-crc.testing
+#  target:
+#    kind: Route
 # this patch needs to be done, because kustomize does not change 
 # the route target service name
 - patch: |-
