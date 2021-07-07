@@ -1,0 +1,53 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: kustomize
+  labels:
+    app.kubernetes.io/version: "0.4"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: build-tool
+spec:
+  description: >-
+    This task can be used to execute kustomze build scripts. 
+  workspaces:
+    - name: source
+      description: The workspace consisting of maven project.
+  params:
+    - name: kustomize-dir
+      description: Where should kustomize look for kustomization in source?
+    - name: target-namespace
+      description: Where to apply the kustomization to
+    - name: image-name
+      description: Which image to use. Kustomize is taking care of it
+  steps:
+    - name: build
+      image: quay.io/wpernath/kustomize-ubi:latest
+      workingDir: $(workspaces.source.path)
+      script: |
+        echo "BASE: $(workspaces.source.path)"
+        echo "KUST: $(workspaces.source.path)/$(params.kustomize-dir)"
+        echo "TARG: $(workspaces.source.path)/kustomized.yaml"
+        echo
+        mkdir $(workspaces.source.path)/tekton-kustomized
+        
+        echo "Source dir"
+        ls -al $(workspaces.source.path)
+
+        echo "kustomized dir"
+        ls -al $(workspaces.source.path)/$(params.kustomize-dir)
+
+        #chmod 770 $(workspaces.source.path)/$(params.kustomize-dir)
+
+        cd $(workspaces.source.path)/tekton-kustomized
+        #cp $(workspaces.source.path)/$(params.kustomize-dir)/
+        kustomize edit set image $(params.image-name)
+        kustomize build $(workspaces.source.path)/$(params.kustomize-dir)
+        kustomize build $(workspaces.source.path)/$(params.kustomize-dir) > $(workspaces.source.path)/tekton-kustomized/kustomized.yaml
+        
+    - name: apply
+      image: 'image-registry.openshift-image-registry.svc:5000/openshift/cli:latest'
+      workingDir: $(workspaces.source.path)
+      script: |
+        #oc apply -f $(workspaces.source.path)/tekton-kustomized/kustomized.yaml -n $(params.target-namespace)
+
