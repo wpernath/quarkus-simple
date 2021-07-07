@@ -11,7 +11,7 @@ spec:
   - name: git-revision
     value: pipeline
   - name: image-name
-    value: quay.io/wpernath/quarkus-simple-wow:latest
+    value: quay.io/wpernath/quarkus-simple-wow
   - name: image-username
     value: wpernath
   - name: image-password

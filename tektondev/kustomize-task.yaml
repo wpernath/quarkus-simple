@@ -28,26 +28,29 @@ spec:
         echo "BASE: $(workspaces.source.path)"
         echo "KUST: $(workspaces.source.path)/$(params.kustomize-dir)"
         echo "TARG: $(workspaces.source.path)/kustomized.yaml"
-        echo
-        mkdir $(workspaces.source.path)/tekton-kustomized
+        echo        
         
         echo "Source dir"
         ls -al $(workspaces.source.path)
 
+        echo "Target dir"
+        ls -al $(workspaces.source.path)/target
+
         echo "kustomized dir"
         ls -al $(workspaces.source.path)/$(params.kustomize-dir)
 
-        #chmod 770 $(workspaces.source.path)/$(params.kustomize-dir)
+        cd $(workspaces.source.path)/$(params.kustomize-dir)
 
-        cd $(workspaces.source.path)/tekton-kustomized
-        #cp $(workspaces.source.path)/$(params.kustomize-dir)/
-        kustomize edit set image $(params.image-name)
+        DIGEST=$(cat $(workspaces.source.path)/target/jib-image.digest)
+
+        kustomize edit set image quay.io/wpernath/simple-quarkus:latest=$(params.image-name)@$DIGEST
+        
         kustomize build $(workspaces.source.path)/$(params.kustomize-dir)
-        kustomize build $(workspaces.source.path)/$(params.kustomize-dir) > $(workspaces.source.path)/tekton-kustomized/kustomized.yaml
+        kustomize build $(workspaces.source.path)/$(params.kustomize-dir) > $(workspaces.source.path)/target/kustomized.yaml
         
     - name: apply
       image: 'image-registry.openshift-image-registry.svc:5000/openshift/cli:latest'
       workingDir: $(workspaces.source.path)
       script: |
-        #oc apply -f $(workspaces.source.path)/tekton-kustomized/kustomized.yaml -n $(params.target-namespace)
+        oc apply -f $(workspaces.source.path)/target/kustomized.yaml -n $(params.target-namespace)
 

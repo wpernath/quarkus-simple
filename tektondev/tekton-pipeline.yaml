@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: new-pipeline-with
+  name: new-pipeline
 spec:
   params:
     - default: 'https://github.com/wpernath/quarkus-simple.git'
@@ -15,7 +15,7 @@ spec:
     - name: image-name
       type: string
       description: the name of the target image including registry
-      default: quay.io/wpernath/quarkus-simple-wow:latest
+      default: quay.io/wpernath/quarkus-simple-wow
     - name: image-username
       type: string
       description: the username you use to access the registry
