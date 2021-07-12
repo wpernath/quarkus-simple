@@ -12,7 +12,7 @@ spec:
     This task can be used to execute kustomze build scripts. 
   workspaces:
     - name: source
-      description: The workspace consisting of maven project.
+      description: The workspace holding the cloned and compiled quarkus source.
   params:
     - name: kustomize-dir
       description: Where should kustomize look for kustomization in source?
