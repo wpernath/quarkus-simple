@@ -3,7 +3,6 @@ kind: Route
 metadata:
   name: simple
 spec:
-  host: simple-article-kustomize.apps-crc.testing
   port:
     targetPort: 8080-tcp
   to:
