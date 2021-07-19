@@ -9,7 +9,7 @@ metadata:
     tekton.dev/tags: build-tool
 spec:
   description: >-
-    This task can be used to execute kustomze build scripts. 
+    This task can be used to execute kustomze build scripts and to apply the changes via oc apply -f
   workspaces:
     - name: source
       description: The workspace holding the cloned and compiled quarkus source.
@@ -30,15 +30,6 @@ spec:
         echo "TARG: $(workspaces.source.path)/kustomized.yaml"
         echo        
         
-        echo "Source dir"
-        ls -al $(workspaces.source.path)
-
-        echo "Target dir"
-        ls -al $(workspaces.source.path)/target
-
-        echo "kustomized dir"
-        ls -al $(workspaces.source.path)/$(params.kustomize-dir)
-
         cd $(workspaces.source.path)/$(params.kustomize-dir)
 
         DIGEST=$(cat $(workspaces.source.path)/target/jib-image.digest)
