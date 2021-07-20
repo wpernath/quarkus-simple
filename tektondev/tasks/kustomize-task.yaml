@@ -27,7 +27,9 @@ spec:
       image: quay.io/wpernath/kustomize-ubi:latest
       workingDir: $(workspaces.source.path)/$(params.kustomize-dir)
       script: |
-        DIGEST=$(cat $(params.image-digest-path)/jib-image.digest)
+        DIGEST=$(cat $(workspaces.source.path)/$(params.image-digest-path)/jib-image.digest)
+        echo "Calculated DIGEST: $(DIGEST)"
+        echo
 
         kustomize edit set image quay.io/wpernath/simple-quarkus:latest=$(params.image-name)@$DIGEST
         

@@ -17,8 +17,8 @@ spec:
     - name: source
       description: The workspace consisting of maven project.
       optional: false
-    - name: maven-repo
-      description: The local maven repository PVC
+#    - name: maven-repo
+#      description: The local maven repository PVC
     - name: maven-settings
       description: >-
         The workspace consisting of the custom maven settings
