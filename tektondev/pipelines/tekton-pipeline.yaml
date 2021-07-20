@@ -12,6 +12,10 @@ spec:
       description: revision to be used
       name: git-revision
       type: string
+    - name: context-dir
+      default: "the-source"
+      type: string
+      description: Where to checkout the source relative to the workspace
     - name: image-name
       type: string
       description: the name of the target image including registry
@@ -35,6 +39,8 @@ spec:
           value: 'true'
         - name: revision
           value: $(params.git-revision)
+        - name: subdirectory
+          value: $(params.context-dir)
       taskRef:
         kind: ClusterTask
         name: git-clone
@@ -47,10 +53,8 @@ spec:
           value:
             - package
             - '-DskipTests'
-        - name: PROXY_PROTOCOL
-          value: http
         - name: CONTEXT_DIR
-          value: .
+          value: "$(params.context-dir)"
       runAfter:
         - git-clone
       taskRef:        
@@ -75,10 +79,8 @@ spec:
             - '-Dquarkus.container-image.image=$(params.image-name)'
             - '-Dquarkus.container-image.username=$(params.image-username)'
             - '-Dquarkus.container-image.password=$(params.image-password)'
-        - name: PROXY_PROTOCOL
-          value: http
         - name: CONTEXT_DIR
-          value: .
+          value: "$(params.context-dir)"
       runAfter:
         - package
       taskRef:
@@ -94,7 +96,7 @@ spec:
     - name: apply-kustomize
       params: 
         - name: kustomize-dir
-          value: kustomize_ext/overlays/dev
+          value: $(params.context-dir)/kustomize_ext/overlays/dev
         - name: target-namespace
           value: $(params.target-namespace)
         - name: image-name
