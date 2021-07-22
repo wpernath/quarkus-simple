@@ -63,8 +63,6 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
-#        - name: maven-repo
-#          workspace: maven-repo
         - name: maven-settings
           workspace: maven-settings
     - name: build-and-push-image
@@ -89,8 +87,6 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
-#        - name: maven-repo
-#          workspace: maven-repo
         - name: maven-settings
           workspace: maven-settings
     - name: apply-kustomize
@@ -116,5 +112,3 @@ spec:
       optional: false
     - name: maven-settings
       optional: false
-#    - name: maven-repo
-#      optional: false

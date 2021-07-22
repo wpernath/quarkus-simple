@@ -17,12 +17,11 @@ spec:
     - name: source
       description: The workspace consisting of maven project.
       optional: false
-#    - name: maven-repo
-#      description: The local maven repository PVC
     - name: maven-settings
       description: >-
         The workspace consisting of the custom maven settings
         provided by the user.
+      optional: false
   params:
     - name: GOALS
       description: maven goals to run
@@ -36,7 +35,6 @@ spec:
         which we want to execute maven goals.
       default: "."
   steps:
-
     - name: mvn-goals
       image: gcr.io/cloud-builders/mvn@sha256:57523fc43394d6d9d2414ee8d1c85ed7a13460cbb268c3cd16d28cfb3859e641
       workingDir: $(workspaces.source.path)/$(params.CONTEXT_DIR)
