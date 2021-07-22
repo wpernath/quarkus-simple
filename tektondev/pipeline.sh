@@ -111,6 +111,7 @@ command.init() {
   oc apply -f pipelines/tekton-pipeline.yaml
 }
 
+
 command.logs() {
     tkn pr logs -f -L
 }
