@@ -12,6 +12,9 @@ https://www.opensourcerers.org/2021/04/26/automated-application-packaging-and-di
 And part two, which focuses on Helm Charts and Kubernetes Operators:
 https://www.opensourcerers.org/2021/05/24/automated-application-packaging-and-distribution-with-openshift-part-23/
 
+And part three, which focuses on OpenShift Pipelines / Tekton:
+https://www.opensourcerers.org/2021/07/26/automated-application-packaging-and-distribution-with-openshift-tekton-pipelines-part-34-2/
+
 ## Prerequisites
 You simply need an OpenShift instance. For example CodeReady Containers, which you can download and use from here:
 
@@ -20,7 +23,6 @@ https://cloud.redhat.com/openshift/create/local
 To build this example locally, you should also have installed:
 
 - kustomize
-- skopeo (to copy the image to quay.io/dockerhub)
 - maven
 - docker for desktop
 - helm sdk
@@ -81,3 +83,12 @@ For packaging the whole operator with OLM, call
 ```shell script
 make bundle bundle-build bundle-push
 ```
+
+## Tekton Pipelines
+Simply follow the guide on the blog https://www.opensourcerers.org/2021/07/26/automated-application-packaging-and-distribution-with-openshift-tekton-pipelines-part-34-2/
+
+and have your OpenShift cluster available to install Tekton.
+
+Then have a look at tektondev/* folder with all necessary Tasks and Pipelines and other resources.
+
+
