@@ -1,6 +1,10 @@
 #!/bin/bash
 # This starts the pipeline new-pipeline with a given 
 
+set -e -u -o pipefail
+declare -r SCRIPT_DIR=$(cd -P $(dirname $0) && pwd)
+declare COMMAND="help"
+
 GIT_URL=https://github.com/wpernath/quarkus-simple.git
 GIT_REVISION=main
 PIPELINE=new-pipeline
@@ -102,6 +106,7 @@ done
 
 command.init() {
   # This script imports the necessary files into the current project 
+  pwd
   oc apply -f infra/maven-settings-cm.yaml
   oc apply -f infra/maven-artifact-cache-pvc.yaml
 

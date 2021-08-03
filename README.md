@@ -92,3 +92,5 @@ and have your OpenShift cluster available to install Tekton.
 Then have a look at tektondev/* folder with all necessary Tasks and Pipelines and other resources.
 
 
+## GitOps
+Simply install the OpenShift GitOps Operator on your OpenShift cluster and follow the guide. 
