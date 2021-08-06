@@ -35,7 +35,7 @@ spec:
       type: string
       description: The password you use to access the registry
   tasks:
-    - name: git-clone
+       - name: git-clone
       params:
         - name: url
           value: $(params.git-url)
@@ -60,10 +60,10 @@ spec:
             - package
             - '-DskipTests'
         - name: CONTEXT_DIR
-          value: "$(params.context-dir)"
+          value: $(params.context-dir)
       runAfter:
         - git-clone
-      taskRef:        
+      taskRef:
         kind: Task
         name: maven-caching
       workspaces:
@@ -84,7 +84,7 @@ spec:
             - '-Dquarkus.container-image.username=$(params.image-username)'
             - '-Dquarkus.container-image.password=$(params.image-password)'
         - name: CONTEXT_DIR
-          value: "$(params.context-dir)"
+          value: $(params.context-dir)
       runAfter:
         - package
       taskRef:
@@ -95,21 +95,37 @@ spec:
           workspace: shared-workspace
         - name: maven-settings
           workspace: maven-settings
-    - name: git-update-deployment
-      params: 
-        - name: kustomize-dir
-          value: $(params.context-dir)/kustomize_ext/overlays/dev
-        - name: image-name
-          value: $(params.image-name)
+    - name: extract-digest
+      params:
         - name: image-digest-path
           value: $(params.context-dir)/target
-      taskRef:        
-        kind: Task
-        name: git-update-deployment
       runAfter:
         - build-and-push-image
+      taskRef:
+        kind: Task
+        name: extract-quarkus-digest
       workspaces:
         - name: source
+          workspace: shared-workspace
+    - name: git-update-deployment
+      params:
+        - name: GIT_REPOSITORY
+          value: $(params.config-git-url)
+        - name: CURRENT_IMAGE
+          value: quay.io/wpernath/quarkus-simple
+        - name: NEW_IMAGE
+          value: $(params.image-name)
+        - name: NEW_DIGEST
+          value: $(tasks.extract-digest.results.DIGEST)
+        - name: KUSTOMIZATION_PATH
+          value: $(params.config-dir)
+      runAfter:
+        - extract-digest
+      taskRef:
+        kind: Task
+        name: git-update-deployment
+      workspaces:
+        - name: workspace
           workspace: shared-workspace
   workspaces:
     - name: shared-workspace
