@@ -35,7 +35,7 @@ spec:
       type: string
       description: The password you use to access the registry
   tasks:
-       - name: git-clone
+    - name: git-clone
       params:
         - name: url
           value: $(params.git-url)
@@ -112,7 +112,7 @@ spec:
         - name: GIT_REPOSITORY
           value: $(params.config-git-url)
         - name: CURRENT_IMAGE
-          value: quay.io/wpernath/quarkus-simple
+          value: quay.io/wpernath/quarkus-simple:latest
         - name: NEW_IMAGE
           value: $(params.image-name)
         - name: NEW_DIGEST
