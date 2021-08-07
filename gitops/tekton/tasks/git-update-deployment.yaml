@@ -31,11 +31,6 @@ spec:
       description: The commit SHA
 
   steps:
-    - name: extract-digest
-      image: quay.io/wpernath/kustomize-ubi:latest
-      workingDir: $(workspaces.workspace.path)
-      script: |
-      
 
     - name: git-clone
       image: docker.io/alpine/git:v2.26.2
