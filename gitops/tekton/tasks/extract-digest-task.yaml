@@ -28,7 +28,7 @@ spec:
       image: quay.io/wpernath/kustomize-ubi:latest
       script: |
         DIGEST=$(cat $(workspaces.source.path)/$(params.image-digest-path)/jib-image.digest)
-        echo "Generated DIGEST: $DIGEST"
+        echo " DIGEST: $DIGEST"
         echo
         echo -n $DIGEST > $(results.DIGEST.path)
         

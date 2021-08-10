@@ -143,6 +143,7 @@ command.init() {
   
   oc apply -f infra/maven-settings-cm.yaml
   oc apply -f infra/maven-artifact-cache-pvc.yaml
+  oc apply -f infra/sa.yaml
 
   oc apply -f tasks/kustomize-task.yaml
   oc apply -f tasks/extract-digest-task.yaml
@@ -198,13 +199,13 @@ spec:
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:
-        claimName: builder-pvc
+        claimName: builder-pvc # maven-repo-pvc
     - configMap:
         name: maven-settings
       name: maven-settings
   pipelineRef:
     name: $PIPELINE
-  serviceAccountName: pipeline
+  serviceAccountName: pipeline-bot
 EOF
 
     oc apply -f /tmp/pipelinerun.yaml
