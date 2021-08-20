@@ -35,16 +35,17 @@ command.help() {
   Usage:
       pipeline.sh [command] [options]
   
-  Example:
+  Examples:
       pipeline.sh init -u wpernath -p <secret> # installs and creates all tasks, pvc and secrets
       pipeline.sh start -u wpernath -p <nope> -t art-tekton
+      pipeline.sh stage -r 1.2.3 
       pipeline.sh logs
   
   COMMANDS:
       init                           creates ConfigMap, Tasks and Pipelines into current context
                                      it also creates a secret with -u/-p user/pwd for GitHub.com access
       start                          starts the given pipeline
-      stage                          starts the stage pipeline
+      stage                          starts the stage pipeline and creates a release in quay.io and github
       logs                           shows logs of the last pipeline run
       help                           Help about this command
 

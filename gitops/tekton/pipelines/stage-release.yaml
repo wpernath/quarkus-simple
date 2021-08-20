@@ -116,7 +116,7 @@ spec:
         - name: release-name
           value: "$(params.release-name)"
         - name: old-image
-          value: quay.io/wpernath/quarkus-simple:latest
+          value: quay.io/wpernath/simple-quarkus:latest
         - name: new-image
           value: "$(params.target-image)"
         - name: digest
