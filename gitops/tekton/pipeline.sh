@@ -12,7 +12,7 @@ CONTEXT_DIR=the-source
 IMAGE_NAME=quay.io/wpernath/quarkus-simple-wow
 IMAGE_USER=wpernath
 IMAGE_PASSWORD=
-TARGET_NAMESPACE=art-tekton
+TARGET_NAMESPACE=quarkus-dev
 
 valid_command() {
   local fn=$1; shift
@@ -44,6 +44,7 @@ command.help() {
       init                           creates ConfigMap, Tasks and Pipelines into current context
                                      it also creates a secret with -u/-p user/pwd for GitHub.com access
       start                          starts the given pipeline
+      stage                          starts the stage pipeline
       logs                           shows logs of the last pipeline run
       help                           Help about this command
 
@@ -66,23 +67,15 @@ metadata:
   name: git-test-run-$(date "+%Y%m%d-%H%M%S")
 spec:
   params:
-    - name: GIT_REPOSITORY
-      value: https://github.com/wpernath/quarkus-simple-config.git
-    - name: CURRENT_IMAGE
-      value: quay.io/wpernath/simple-quarkus:latest
-    - name: NEW_IMAGE
-      value: quay.io/wpernath/quarkus-simple-wow
-    - name: NEW_DIGEST
-      value: sha256:4aa9f7090950f01742ff2ae3dc3ce2f4cd45a6dc07d3c168d1ecde91914b7d46
-    - name: KUSTOMIZATION_PATH
+    - name: kustomize-dir
       value: config/overlays/dev
   workspaces:
-    - name: workspace
+    - name: source
       persistentVolumeClaim:
-        claimName: maven-repo-pvc      
-  serviceAccountName: pipeline
+        claimName: builder-pvc      
+  serviceAccountName: pipeline-bot
   taskRef:
-    name: git-update-deployment
+    name: extract-kustomize-digest
 EOF
 
 oc apply -f /tmp/tr.yaml
@@ -92,7 +85,7 @@ oc apply -f /tmp/tr.yaml
 
 while (( "$#" )); do
   case "$1" in
-    start|logs|init|test)
+    start|logs|init|test|stage)
       COMMAND=$1
       shift
       ;;
@@ -147,11 +140,15 @@ command.init() {
 
   oc apply -f tasks/kustomize-task.yaml
   oc apply -f tasks/extract-digest-task.yaml
+  oc apply -f tasks/extract-digest-from-kustomize-task.yaml
+  oc apply -f tasks/create-release.yaml
+  
   oc apply -f tasks/maven-task.yaml
   oc apply -f tasks/git-update-deployment.yaml
   oc apply -f tasks/bash-task.yaml
 
   oc apply -f pipelines/tekton-pipeline.yaml
+  oc apply -f pipelines/stage-release.yaml
 
   cat > /tmp/tekton-git-secret.yaml <<-EOF
 apiVersion: v1
@@ -199,12 +196,38 @@ spec:
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:
-        claimName: builder-pvc # maven-repo-pvc
+        claimName: builder-pvc 
     - configMap:
         name: maven-settings
       name: maven-settings
   pipelineRef:
     name: $PIPELINE
+  serviceAccountName: pipeline-bot
+EOF
+
+    oc apply -f /tmp/pipelinerun.yaml
+}
+
+
+command.stage() {
+  cat > /tmp/pipelinerun.yaml <<-EOF
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: gitops-stage-release-run-$(date "+%Y%m%d-%H%M%S")
+spec:
+  params:
+    - name: release-name
+      value: $GIT_REVISION
+  workspaces:
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: builder-pvc 
+    - configMap:
+        name: maven-settings
+      name: maven-settings
+  pipelineRef:
+    name: gitops-stage-release
   serviceAccountName: pipeline-bot
 EOF
 

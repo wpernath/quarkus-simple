@@ -4,23 +4,20 @@ metadata:
   annotations:
     tekton.dev/pipelines.minVersion: 0.12.1
     tekton.dev/tags: git
-  name: git-update-deployment
+  name: create-release
   labels:
     app.kubernetes.io/version: '0.2'
     operator.tekton.dev/provider-type: community
 spec:
   description: This Task can be used to update image digest in a Git repo using kustomize. It requires a secret with credentials for accessing the git repo.
   params:
-    - name: GIT_REPOSITORY
-      type: string
-    - name: CURRENT_IMAGE
-      type: string
-    - name: NEW_IMAGE
-      type: string
-    - name: NEW_DIGEST
-      type: string
-    - name: KUSTOMIZATION_PATH
-      type: string
+    - name: release-name
+      description: The tag of the release. There is a branch with feature-$(release-name) available
+    - name: old-image
+    - name: new-image
+    - name: digest
+    - name: kustomize-dir
+    - name: context-dir
 
   workspaces:
     - description: The workspace consisting of maven project.
@@ -31,20 +28,11 @@ spec:
       description: The commit SHA
 
   steps:
-
-    - name: git-clone
-      image: docker.io/alpine/git:v2.26.2
-      workingDir: $(workspaces.workspace.path)
-      script: |
-        rm -rf git-update-digest-workdir
-        git clone $(params.GIT_REPOSITORY) git-update-digest-workdir
-
     - name: update-digest
       image: quay.io/wpernath/kustomize-ubi:latest
-      workingDir: $(workspaces.workspace.path)
-      script: |
-        cd git-update-digest-workdir/$(params.KUSTOMIZATION_PATH)
-        kustomize edit set image $(params.CURRENT_IMAGE)=$(params.NEW_IMAGE)@$(params.NEW_DIGEST)
+      workingDir: $(workspaces.workspace.path)/$(params.context-dir)/$(params.kustomize-dir)
+      script: |        
+        kustomize edit set image $(params.old-image)=$(params.new-image):$(params.release-name)@$(params.digest)
 
         echo "##########################"
         echo "### kustomization.yaml ###"
@@ -53,18 +41,16 @@ spec:
 
     - name: git-commit
       image: docker.io/alpine/git:v2.26.2
-      workingDir: $(workspaces.workspace.path)
+      workingDir: $(workspaces.workspace.path)/$(params.context-dir)
       script: |
-        cd git-update-digest-workdir
-
         git config user.email "wpernath@redhat.com"
         git config user.name "My Tekton Bot"
 
         git status
-        git add $(params.KUSTOMIZATION_PATH)/kustomization.yaml
-        git commit -m "[ci] Image digest updated"
+        git add $(params.kustomize-dir)/kustomization.yaml
+        git commit -m "[ci] Branch for $(params.release-name) release"
         
-        git push
+        git push --set-upstream origin feature-$(params.release-name)
 
         RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
         EXIT_CODE="$?"
