@@ -57,7 +57,7 @@ spec:
           value: >-
             docker.io/alpine/git:v2.26.2@sha256:23618034b0be9205d9cc0846eb711b12ba4c9b468efdd8a59aac1d7b1a23363f
         - name: GIT_SCRIPT
-          value: cd $(params.context-dir) && git checkout -b feature-$(params.release-name)
+          value: cd $(params.context-dir) && git checkout -b release-$(params.release-name)
       runAfter:
         - git-clone
       taskRef:

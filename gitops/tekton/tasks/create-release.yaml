@@ -12,7 +12,7 @@ spec:
   description: This Task can be used to update image digest in a Git repo using kustomize. It requires a secret with credentials for accessing the git repo.
   params:
     - name: release-name
-      description: The tag of the release. There is a branch with feature-$(release-name) available
+      description: The tag of the release. There is a branch with release-$(release-name) available
     - name: old-image
     - name: new-image
     - name: digest
@@ -50,7 +50,7 @@ spec:
         git add $(params.kustomize-dir)/kustomization.yaml
         git commit -m "[ci] Branch for $(params.release-name) release"
         
-        git push --set-upstream origin feature-$(params.release-name)
+        git push --set-upstream origin release-$(params.release-name)
 
         RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
         EXIT_CODE="$?"
