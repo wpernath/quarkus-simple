@@ -1,2 +1,2 @@
-ARTIFACT_COPY_ARGS=-p -r lib/ *-runner.jar
+ARTIFACT_COPY_ARGS=-p -r quarkus-app/* quarkus-app/quarkus-run.jar
 
